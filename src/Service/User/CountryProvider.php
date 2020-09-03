@@ -51,7 +51,7 @@ class CountryProvider
 
     /**
      * Return the country name from a request ip
-     * @param $ip
+     * @param string $ip
      * @return string|null
      */
     public function getCountryFromIp(string $ip): ?string
