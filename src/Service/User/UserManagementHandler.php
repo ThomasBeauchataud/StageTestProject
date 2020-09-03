@@ -97,6 +97,7 @@ class UserManagementHandler implements MessageSubscriberInterface
         $user->setCountry($userUpdate->getUser()->getCountry());
         $user->setGender($userUpdate->getUser()->getGender());
         $user->setBirthDate($userUpdate->getUser()->getBirthDate());
+        $user->setJob($userUpdate->getUser()->getJob());
         $this->em->persist($user);
         $this->em->flush();
     }

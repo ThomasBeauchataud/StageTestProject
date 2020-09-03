@@ -18,16 +18,16 @@ MAIlER_DSN={YOU DSN EMAIL HERE}
 ```
 INSERT INTO `admin` (`email`, `password`) VALUES ({YOUR EMAIL HERE}, '4a7d1ed414474e4033ac29ccb8653d9b');
 
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Jones', 'Alyson', 'kklocko@example.net', 'Female', '2010-10-15', 'Macao');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Harvey', 'Jay', 'zfisher@example.org', 'Male', '1984-01-19', 'France');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Koch', 'Stanton', 'kub.madelyn@example.org', 'Male', '1989-10-05', 'Uzbekistan');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Boyle', 'Enrique', 'egottlieb@example.com', 'Male', '1978-12-11', 'Jersey');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Walker', 'Chet', 'dstiedemann@example.net', 'Female', '2014-03-08', 'Jersey');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Bauch', 'Marc', 'johnson.chaim@example.net', 'Male', '1979-11-04', 'Greece');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Reilly', 'Calista', 'bell.beier@example.com', 'Female', '1992-11-25', 'Greece');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Kutch', 'Greta', 'dejah.torp@example.org', 'Female', '2017-03-02', 'France');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Yost', 'Robb', 'hdeckow@example.com', 'Male', '1990-07-11', 'France');
-INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Ratke', 'Lucius', 'mschmeler@example.net', 'Male', '1984-09-22', 'Latvia');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Jones', 'Alyson', 'kklocko@example.net', 'Female', '2010-10-15', 'Macao', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Harvey', 'Jay', 'zfisher@example.org', 'Male', '1984-01-19', 'France', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Koch', 'Stanton', 'kub.madelyn@example.org', 'Male', '1989-10-05', 'Uzbekistan', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Boyle', 'Enrique', 'egottlieb@example.com', 'Male', '1978-12-11', 'Jersey', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Walker', 'Chet', 'dstiedemann@example.net', 'Female', '2014-03-08', 'Jersey', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Bauch', 'Marc', 'johnson.chaim@example.net', 'Male', '1979-11-04', 'Greece', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Reilly', 'Calista', 'bell.beier@example.com', 'Female', '1992-11-25', 'Greece', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Kutch', 'Greta', 'dejah.torp@example.org', 'Female', '2017-03-02', 'France', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Yost', 'Robb', 'hdeckow@example.com', 'Male', '1990-07-11', 'France', 'Farmer');
+INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`, `job`) VALUES ('Ratke', 'Lucius', 'mschmeler@example.net', 'Male', '1984-09-22', 'Latvia', 'Farmer');
 ```
 
 ## The Application

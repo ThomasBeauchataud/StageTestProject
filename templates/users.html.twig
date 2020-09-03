@@ -23,6 +23,7 @@
                             <th class="column1">Country</th>
                             <th class="column1">Gender</th>
                             <th class="column1">Birth Date</th>
+                            <th class="column1">Job</th>
                             <th class="column2"></th>
                         </tr>
                         </thead>
@@ -35,6 +36,7 @@
                                 <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.country }}</td>
                                 <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.gender }}</td>
                                 <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.birthDate }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.job }}</td>
                                 <td class="column2">
                                     <form method="post" action="{{ url("admin_delete") }}">
                                     <input type="hidden" name="id" value="{{ user.id }}">

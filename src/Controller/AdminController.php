@@ -5,7 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
-use App\Service\User\CountryProvider;
+use App\Service\DataProvider;
 use App\Service\User\UserUpdate;
 use App\Service\User\UserFactory;
 use App\Service\User\UserSuppression;
@@ -39,9 +39,9 @@ class AdminController extends AbstractController
     private EntityManagerInterface $em;
 
     /**
-     * @var CountryProvider
+     * @var DataProvider
      */
-    private CountryProvider $countryProvider;
+    private DataProvider $dataProvider;
 
     /**
      * @var ValidatorInterface
@@ -52,14 +52,14 @@ class AdminController extends AbstractController
      * AdminController constructor.
      * @param MessageBusInterface $bus
      * @param EntityManagerInterface $em
-     * @param CountryProvider $countryProvider
+     * @param DataProvider $dataProvider
      * @param ValidatorInterface $validator
      */
-    public function __construct(MessageBusInterface $bus, EntityManagerInterface $em, CountryProvider $countryProvider, ValidatorInterface $validator)
+    public function __construct(MessageBusInterface $bus, EntityManagerInterface $em, DataProvider $dataProvider, ValidatorInterface $validator)
     {
         $this->bus = $bus;
         $this->em = $em;
-        $this->countryProvider = $countryProvider;
+        $this->dataProvider = $dataProvider;
         $this->validator = $validator;
     }
 
@@ -73,9 +73,8 @@ class AdminController extends AbstractController
     public function index(Request $request)
     {
         $users = $this->em->getRepository(User::class)->findBy(array(), array('country' => 'ASC'));
-        $countries = $this->countryProvider->getCountryList();
         return $this->render("users.html.twig",
-            array("users" => $users, "countries" => $countries, "genders" => User::GENDERS, "message" => $request->query->get("message"))
+            array("users" => $users, "message" => $request->query->get("message"))
         );
     }
 
@@ -90,9 +89,10 @@ class AdminController extends AbstractController
         if ($request->isMethod("POST")) {
             return $this->forward('App\Controller\RegisterController::create');
         }
-        $countries = $this->countryProvider->getCountryList();
+        $countries = $this->dataProvider->getCountryList();
+        $jobs = $this->dataProvider->getJobList();
         return $this->render('register.html.twig',
-            array("error" => $request->query->get("error"), "countries" => $countries, "genders" => User::GENDERS)
+            array("error" => $request->query->get("error"), "countries" => $countries, "genders" => User::GENDERS, "jobs" => $jobs)
         );
     }
 
@@ -106,9 +106,10 @@ class AdminController extends AbstractController
     public function select(Request $request, int $id)
     {
         $user = $this->em->getRepository(User::class)->find($id);
-        $countries = $this->countryProvider->getCountryList();
+        $countries = $this->dataProvider->getCountryList();
+        $jobs = $this->dataProvider->getJobList();
         return $this->render("user.html.twig",
-            array("user" => $user, "countries" => $countries, "genders" => User::GENDERS, "error" => $request->query->get("error"))
+            array("user" => $user, "countries" => $countries, "genders" => User::GENDERS, "jobs" => $jobs, "error" => $request->query->get("error"))
         );
     }
 
@@ -140,6 +141,7 @@ class AdminController extends AbstractController
             "gender" => $request->request->get("gender"),
             "birthDate" => $request->request->get("birth_date"),
             "country" => $request->request->get("country"),
+            "job" => $request->request->get("job"),
             "id" => $request->request->get("id")
         ));
         $errors = $this->validator->validate($user);

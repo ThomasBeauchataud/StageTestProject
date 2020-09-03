@@ -19,7 +19,7 @@ class UserFactory
 
     /**
      * Create a User entity
-     * @param array $data ["email", "name", "surname", "gender", "birthDate", "country", "id" (optional)]
+     * @param array $data ["email", "name", "surname", "gender", "birthDate", "country", "job", "id" (optional)]
      * @return User
      * @throws Exception
      */
@@ -37,6 +37,7 @@ class UserFactory
         $user->setGender($data["gender"]);
         $user->setBirthDate($data["birthDate"]);
         $user->setCountry($data["country"]);
+        $user->setJob($data["job"]);
         if (isset($data["id"])) {
             $user->setId($data["id"]);
         }

@@ -63,6 +63,12 @@ class User
      */
     private ?string $country;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="You must provide a job")
+     */
+    private ?string $job;
+
     public function setId(int $id)
     {
         $this->id = $id;
@@ -141,6 +147,18 @@ class User
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getJob(): ?string
+    {
+        return $this->job;
+    }
+
+    public function setJob(?string $job): self
+    {
+        $this->job = $job;
 
         return $this;
     }

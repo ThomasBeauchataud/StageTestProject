@@ -22,6 +22,7 @@ class AdminControllerTest extends AbstractControllerTest
     private CONST EMAIL = "email.test@gmail.com";
     private CONST GENDER = User::GENDER_MALE;
     private CONST COUNTRY = "FRANCE";
+    private CONST JOB = "Farmer";
     private CONST BIRTHDATE = "1996-02-21";
 
     /**
@@ -48,7 +49,8 @@ class AdminControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birthDate" => self::BIRTHDATE
+            "birthDate" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $user = UserFactory::createUser($data);
         $this->em->persist($user);
@@ -77,7 +79,8 @@ class AdminControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birth_date" => self::BIRTHDATE
+            "birth_date" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $this->client->request('POST', $this->router->generate("admin_create"), $parameters);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode(),
@@ -114,7 +117,8 @@ class AdminControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birthDate" => self::BIRTHDATE
+            "birthDate" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $user = UserFactory::createUser($data);
         $this->em->persist($user);
@@ -127,7 +131,8 @@ class AdminControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birth_date" => self::BIRTHDATE
+            "birth_date" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $this->client->request('POST', $this->router->generate("admin_update"), $parameters);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode(),
@@ -157,7 +162,8 @@ class AdminControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birthDate" => self::BIRTHDATE
+            "birthDate" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $user = UserFactory::createUser($data);
         $this->em->persist($user);

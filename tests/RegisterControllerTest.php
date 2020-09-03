@@ -21,7 +21,7 @@ class RegisterControllerTest extends AbstractControllerTest
     private CONST GENDER = User::GENDER_MALE;
     private CONST COUNTRY = "FRANCE";
     private CONST BIRTHDATE = "1996-02-21";
-
+    private CONST JOB = "Farmer";
 
     /**
      * @covers \App\Controller\RegisterController::index
@@ -44,7 +44,8 @@ class RegisterControllerTest extends AbstractControllerTest
             "email" => self::EMAIL,
             "gender" => self::GENDER,
             "country" => self::COUNTRY,
-            "birth_date" => self::BIRTHDATE
+            "birth_date" => self::BIRTHDATE,
+            "job" => self::JOB
         );
         $this->client->request('POST', $this->router->generate("register_create"), $parameters);
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode(),
