@@ -31,28 +31,28 @@
                     <div class="p-t-31 p-b-9"><span class="txt1">Email</span></div>
                     <div class="wrap-input100 validate-input" data-validate="Email is required">
                         <label><input class="input100" type="text" name="email" value="{{ user.email }}"
-                                      placeholder="Enter your email here"></label>
+                                      placeholder="Enter your email here" required></label>
                         <span class="focus-input100"></span>
                     </div>
 
                     <div class="p-t-31 p-b-9"><span class="txt1">Name</span></div>
                     <div class="wrap-input100 validate-input" data-validate="Name is required">
                         <label><input class="input100" type="text" name="name" value="{{ user.name }}"
-                                      placeholder="Enter your name here"></label>
+                                      placeholder="Enter your name here" required></label>
                         <span class="focus-input100"></span>
                     </div>
 
                     <div class="p-t-13 p-b-9"><span class="txt1">Surname</span></div>
                     <div class="wrap-input100 validate-input" data-validate="Surname is required">
                         <label><input class="input100" type="text" name="surname" value="{{ user.surname }}"
-                                      placeholder="Enter your surname here"></label>
+                                      placeholder="Enter your surname here" required></label>
                         <span class="focus-input100"></span>
                     </div>
 
                     <div class="p-t-13 p-b-9"><span class="txt1">Gender</span>
                         <div class="txt1">
                             <label for="gender"></label>
-                            <select id="gender" name="gender" class="selectpicker">
+                            <select id="gender" name="gender" class="selectpicker" required>
                                 <option disabled selected>Select your gender</option>
                                 {% for g in genders %}
                                     <option value="{{ g }}" {% if g == user.gender %} selected {% endif %} >{{ g }}</option>
@@ -64,7 +64,7 @@
                     <div class="p-t-13 p-b-9"><span class="txt1">Country</span>
                         <div class="txt1">
                             <label for="country"></label>
-                            <select id="country" name="country" class="selectpicker" data-live-search="true">
+                            <select id="country" name="country" class="selectpicker" data-live-search="true" required>
                                 <option disabled selected>Select your country</option>
                                 {% for c in countries %}
                                     <option value="{{ c }}" {% if c == user.country %} selected {% endif %}>{{ c }}</option>
@@ -75,7 +75,7 @@
 
                     <div class="p-t-13 p-b-9"><span class="txt1">Birth Date</span></div>
                     <div class="wrap-input100 validate-input" data-validate="Birth date is required">
-                        <label><input class="input100" type="date" name="birth_date" value="{{ user.birthDate }}"></label>
+                        <label><input class="input100" type="date" name="birth_date" value="{{ user.birthDate }}" required></label>
                         <span class="focus-input100"></span>
                     </div>
 

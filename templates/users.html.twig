@@ -8,6 +8,11 @@
     <div class="limiter">
         <div class="container-table100">
             <div class="wrap-table100">
+                {% if message is defined %}
+                    <div style="color: green; font-size: 30px; text-align: center; padding-bottom: 20px">
+                        {{ message }}
+                    </div>
+                {% endif %}
                 <div class="table100">
                     <table>
                         <thead>

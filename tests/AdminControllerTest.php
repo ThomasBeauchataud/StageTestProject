@@ -68,6 +68,9 @@ class AdminControllerTest extends AbstractControllerTest
     public function testCreate()
     {
         $this->loginAdmin();
+        $this->client->request('GET', $this->router->generate("admin_create"));
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode(),
+            "Error while trying to load user creation page from admin panel");
         $parameters = array(
             "name" => self::NAME,
             "surname" => self::SURNAME,

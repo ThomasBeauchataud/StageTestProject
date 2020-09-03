@@ -39,19 +39,21 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email(message="The email '{{ value }}' is not a valid email.")
+     * @Assert\Email(message="The email {{ value }} is not a valid email.")
      */
     private ?string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Choice({"Male", "Female"}, message="You must provide a valid gender")
+     * @Assert\NotNull(message="You must provide a valid gender")
      */
     private ?string $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Date(message="You must provide a valid birth date")
+     * @Assert\NotNull(message="You provide a valid birth date")
      */
     private ?string $birthDate;
 

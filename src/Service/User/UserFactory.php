@@ -26,7 +26,7 @@ class UserFactory
     public static function createUser(array $data): User
     {
         foreach(self::FIELDS as $field) {
-            if (!isset($data[$field])) {
+            if (!array_key_exists($field, $data)) {
                 throw new Exception("UserFactory::createUser array parameter must contains field ".$field);
             }
         }

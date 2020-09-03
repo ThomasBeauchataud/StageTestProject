@@ -8,14 +8,12 @@ use App\Entity\User;
 use App\Service\User\CountryProvider;
 use App\Service\User\UserCreation;
 use App\Service\User\UserFactory;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use GeoIp2\Database\Reader;
 use Exception;
 
 /**
@@ -42,23 +40,16 @@ class RegisterController extends AbstractController
     private CountryProvider $countryProvider;
 
     /**
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
-
-    /**
      * RegisterController constructor.
      * @param ValidatorInterface $validator
      * @param MessageBusInterface $bus
      * @param CountryProvider $countryProvider
-     * @param LoggerInterface $logger
      */
-    public function __construct(ValidatorInterface $validator, MessageBusInterface $bus, CountryProvider $countryProvider, LoggerInterface $logger)
+    public function __construct(ValidatorInterface $validator, MessageBusInterface $bus, CountryProvider $countryProvider)
     {
         $this->validator = $validator;
         $this->bus = $bus;
         $this->countryProvider = $countryProvider;
-        $this->logger = $logger;
     }
 
 
@@ -70,13 +61,7 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request)
     {
-        $country = null;
-        try {
-            $reader = new Reader($this->getParameter("geo_lite_path"));
-            $country = $reader->country($request->getClientIp())->country->name;
-        } catch (Exception $e) {
-            $this->logger->alert($e->getMessage());
-        }
+        $country = $this->countryProvider->getCountryFromIp($request->getClientIp());
         $countries = $this->countryProvider->getCountryList();
         return $this->render("register.html.twig",
             array("error" => $request->query->get("error"), "countries" => $countries, "genders" => User::GENDERS, "country" => $country)
@@ -102,15 +87,16 @@ class RegisterController extends AbstractController
             "birthDate" => $request->request->get("birth_date")
         ));
         $errors = $this->validator->validate($user);
-        $redirectRoute = $this->getUser() == null ? "index" : "admin_create";
         $message = $this->getUser() == null
             ? "Your data has been well saved, you should soon receive a mail to confirm your registry"
             : "The user has been well created";
         if (count($errors) == 0) {
             $this->bus->dispatch(new UserCreation($user));
+            $redirectRoute = $this->getUser() == null ? "index" : "admin_index";
             return $this->redirectToRoute($redirectRoute, array("message" => $message));
         }
         $error = $errors[0]->getMessage();
-        return $this->redirectToRoute("register_index", array("error" => $error));
+        $redirectRoute = $this->getUser() == null ? "register" : "admin_create";
+        return $this->redirectToRoute($redirectRoute, array("error" => $error));
     }
 }
