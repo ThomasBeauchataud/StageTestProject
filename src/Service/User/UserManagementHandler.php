@@ -7,10 +7,11 @@ namespace App\Service\User;
 use App\Entity\Admin;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
-use Symfony\Component\Mime\Email;
+use App\Service\EmailFactory;
 
 /**
  * Handle the executing of user messages
@@ -31,6 +32,25 @@ class UserManagementHandler implements MessageSubscriberInterface
     private MailerInterface $mailer;
 
     /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
+    /**
+     * UserManagementHandler constructor.
+     * @param EntityManagerInterface $em
+     * @param MailerInterface $mailer
+     * @param LoggerInterface $logger
+     */
+    public function __construct(EntityManagerInterface $em, MailerInterface $mailer, LoggerInterface $logger)
+    {
+        $this->em = $em;
+        $this->mailer = $mailer;
+        $this->logger = $logger;
+    }
+
+
+    /**
      * Add a user to the database and send a email to the user and to the admin to confirm this creation
      * @param UserCreation $userCreation
      */
@@ -39,15 +59,12 @@ class UserManagementHandler implements MessageSubscriberInterface
         $this->em->persist($userCreation->getUser());
         $this->em->flush();
         $admin = $this->em->getRepository(Admin::class)->findAll()[0];
-        $email = (new Email())
-            ->from("")
-            ->to($userCreation->getUser()->getEmail())
-            ->addTo($admin->getEmail())
-            ->text("Text test");
+        $email = EmailFactory::createUserCreationEmail($admin, $userCreation->getUser());
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            //TODO handle exception
+            $this->logger->alert($e->getMessage());
+            //TODO Create a message queue storing emails which couldn't be sent
         }
     }
 
@@ -68,7 +85,15 @@ class UserManagementHandler implements MessageSubscriberInterface
      */
     public function userUpdateHandler(UserUpdate $userUpdate): void
     {
-        //TODO Implements
+        $user = $this->em->getRepository(User::class)->find($userUpdate->getUserId());
+        $user->setSurname($userUpdate->getUser()->getSurname());
+        $user->setName($userUpdate->getUser()->getName());
+        $user->setEmail($userUpdate->getUser()->getEmail());
+        $user->setCountry($userUpdate->getUser()->getCountry());
+        $user->setGender($userUpdate->getUser()->getGender());
+        $user->setBirthDate($userUpdate->getUser()->getBirthDate());
+        $this->em->persist($user);
+        $this->em->flush();
     }
 
     /**

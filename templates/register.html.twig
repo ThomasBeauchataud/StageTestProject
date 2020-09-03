@@ -1,5 +1,11 @@
 {% extends "base.html.twig" %}
 
+{% block subHeader %}
+    {% if is_granted("ROLE_ADMIN") %}
+        {% include "user_menu.html.twig" %}
+    {% endif %}
+{% endblock %}
+
 {% block stylesheets %}
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen"
@@ -15,7 +21,7 @@
         <div class="container-login100">
             <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
                 <form class="login100-form validate-form flex-sb flex-w" method="post"
-                      action="{{ url("register_creation") }}">
+                      action="{{ url("register_create") }}">
 
                     <span class="login100-form-title p-b-53">Register</span>
 

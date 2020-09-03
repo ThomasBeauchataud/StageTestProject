@@ -9,13 +9,14 @@
 APP_ENV=dev
 APP_SECRET=3ad0df3f91d2bfab4ed76ddb3e9ff319
 DATABASE_URL={YOUR DATABASE URL HERE}
-MAIlER_DSN={YOU DSN MAIL HERE}
+MAIlER_DSN={YOU DSN EMAIL HERE}
 ```
 - Run `php composer.phar update` to install packages
 - Create database tables by running `php bin/console doctrine:migration:migrate`
-- Populate tables by running SQL commands below:
+- Populate tables by running SQL commands below0
+> Your email must be a gmail email, or you have to install another bridge:
 ```
-INSERT INTO `admin` (`email`, `password`) VALUES ('test@0000', '4a7d1ed414474e4033ac29ccb8653d9b');
+INSERT INTO `admin` (`email`, `password`) VALUES ({YOUR EMAIL HERE}, '4a7d1ed414474e4033ac29ccb8653d9b');
 
 INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Jones', 'Alyson', 'kklocko@example.net', 'Female', '2010-10-15', 'Macao');
 INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Harvey', 'Jay', 'zfisher@example.org', 'Male', '1984-01-19', 'France');
