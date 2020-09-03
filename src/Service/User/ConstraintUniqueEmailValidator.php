@@ -41,7 +41,7 @@ class ConstraintUniqueEmailValidator extends ConstraintValidator
         $userTest = $this->em->getRepository(User::class)->findOneBy(["email" => $user->getEmail()]);
         if ($userTest != null && $user->getId() != $userTest->getId()) {
             $this->context->buildViolation($constraint->message)
-                ->atPath('foo')
+                ->atPath(get_class($user))
                 ->addViolation();
         }
     }

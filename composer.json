@@ -26,7 +26,8 @@
         "symfony/twig-bundle": "5.1.*",
         "symfony/validator": "*",
         "symfony/yaml": "*",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "symfony/test-pack": "^v1.0"
     },
     "require-dev": {
         "symfony/browser-kit": "^5.1",

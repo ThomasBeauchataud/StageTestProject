@@ -4,11 +4,11 @@
 namespace App\Controller;
 
 
-use App\Entity\Admin;
 use App\Entity\User;
 use App\Service\User\CountryProvider;
 use App\Service\User\UserCreation;
 use App\Service\User\UserFactory;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,16 +42,23 @@ class RegisterController extends AbstractController
     private CountryProvider $countryProvider;
 
     /**
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+
+    /**
      * RegisterController constructor.
      * @param ValidatorInterface $validator
      * @param MessageBusInterface $bus
      * @param CountryProvider $countryProvider
+     * @param LoggerInterface $logger
      */
-    public function __construct(ValidatorInterface $validator, MessageBusInterface $bus, CountryProvider $countryProvider)
+    public function __construct(ValidatorInterface $validator, MessageBusInterface $bus, CountryProvider $countryProvider, LoggerInterface $logger)
     {
         $this->validator = $validator;
         $this->bus = $bus;
         $this->countryProvider = $countryProvider;
+        $this->logger = $logger;
     }
 
 
@@ -63,22 +70,22 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request)
     {
-        $city = null;
+        $country = null;
         try {
             $reader = new Reader($this->getParameter("geo_lite_path"));
-            $record = $reader->city($request->getClientIp());
-            var_dump($record);
+            $country = $reader->country($request->getClientIp())->country->name;
         } catch (Exception $e) {
-
+            $this->logger->alert($e->getMessage());
         }
         $countries = $this->countryProvider->getCountryList();
         return $this->render("register.html.twig",
-            array("error" => $request->query->get("error"), "countries" => $countries, "genders" => User::GENDERS)
+            array("error" => $request->query->get("error"), "countries" => $countries, "genders" => User::GENDERS, "country" => $country)
         );
     }
 
     /**
-     * Handle the user creation form
+     * Handle the user creation form for unauthenticated user and for admin
+     * Redirecting to the page based on the session
      * @Route("/create", name="create", methods={"POST"})
      * @param Request $request
      * @return Response
@@ -95,14 +102,15 @@ class RegisterController extends AbstractController
             "birthDate" => $request->request->get("birth_date")
         ));
         $errors = $this->validator->validate($user);
-        $redirectRoute = $this->getUser() == null ? "register_index" : "admin_create";
+        $redirectRoute = $this->getUser() == null ? "index" : "admin_create";
+        $message = $this->getUser() == null
+            ? "Your data has been well saved, you should soon receive a mail to confirm your registry"
+            : "The user has been well created";
         if (count($errors) == 0) {
             $this->bus->dispatch(new UserCreation($user));
-            if (in_array(Admin::ROLE_ADMIN, $this->getUser()->getRoles())) {
-                return $this->redirectToRoute($redirectRoute);
-            }
+            return $this->redirectToRoute($redirectRoute, array("message" => $message));
         }
         $error = $errors[0]->getMessage();
-        return $this->redirectToRoute($redirectRoute, array("error" => $error));
+        return $this->redirectToRoute("register_index", array("error" => $error));
     }
 }

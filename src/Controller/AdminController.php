@@ -67,14 +67,15 @@ class AdminController extends AbstractController
     /**
      * Display the list of existing users
      * @Route("/", name="index", methods={"GET"})
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = $this->em->getRepository(User::class)->findBy(array(), array('country' => 'ASC'));
         $countries = $this->countryProvider->getCountryList();
         return $this->render("users.html.twig",
-            array("users" => $users, "countries" => $countries, "genders" => User::GENDERS)
+            array("users" => $users, "countries" => $countries, "genders" => User::GENDERS, "message" => $request->query->get("message"))
         );
     }
 

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Handler\MessageSubscriberInterface;
 use App\Service\EmailFactory;
 
@@ -61,10 +62,14 @@ class UserManagementHandler implements MessageSubscriberInterface
         $admin = $this->em->getRepository(Admin::class)->findAll()[0];
         $email = EmailFactory::createUserCreationEmail($admin, $userCreation->getUser());
         try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
+            try {
+                $this->mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                $this->logger->alert($e->getMessage());
+            }
+        } catch (HandlerFailedException $e) {
             $this->logger->alert($e->getMessage());
-            //TODO Create a message queue storing emails which couldn't be sent
+            //TODO Create a message queue storing emails which couldn't be sent to send them later
         }
     }
 

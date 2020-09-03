@@ -69,7 +69,7 @@
                             <select id="country" name="country" class="selectpicker" data-live-search="true">
                                 <option disabled selected>Select your country</option>
                                 {% for c in countries %}
-                                    <option value="{{ c }}">{{ c }}</option>
+                                    <option value="{{ c }}" {% if country == c %} selected {% endif %}>{{ c }}</option>
                                 {% endfor %}
                             </select>
                         </div>

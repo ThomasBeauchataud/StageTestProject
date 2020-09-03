@@ -29,4 +29,13 @@ INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country
 INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Yost', 'Robb', 'hdeckow@example.com', 'Male', '1990-07-11', 'France');
 INSERT INTO `user` (`name`, `surname`, `email`, `gender`, `birth_date`, `country`) VALUES ('Ratke', 'Lucius', 'mschmeler@example.net', 'Male', '1984-09-22', 'Latvia');
 ```
+
 ## The Application
+- Internet users can register by clicking on the `Register` tab then by filling out the form
+- Administrators can manage internet users by connecting through the `Login` tab then clicking on the `Admin` tab
+> If you created the administrator with the SQL command above, login credentials are your email, and the password is 0000
+- Administrators can delete an internet user by clicking on the `Delete` button, edit them by clicking on the raw of the user to edit 
+and create a new internet user by clicking on the sub tab `User Creation`
+
+## The Tests
+You can execute tests by running `php bin/phpunit`
