@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="limiter">
+        <div class="container-table100">
+            <div class="wrap-table100">
+                <div class="table100">
+                    <table>
+                        <thead>
+                        <tr class="table100-head">
+                            <th class="column1">Name</th>
+                            <th class="column1">Surname</th>
+                            <th class="column1">Email</th>
+                            <th class="column1">Country</th>
+                            <th class="column1">Gender</th>
+                            <th class="column1">Birth Date</th>
+                            <th class="column2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'">
+                                <td class="column1">{{ user.name }}</td>
+                                <td class="column1">{{ user.surname }}</td>
+                                <td class="column1">{{ user.email }}</td>
+                                <td class="column1">{{ user.country }}</td>
+                                <td class="column1">{{ user.gender }}</td>
+                                <td class="column1">{{ user.birthDate.format('d F Y') }}</td>
+                                <td class="column2">
+                                    <input type="hidden" name="id" value="{{ user.id }}">
+                                    <button type="submit" class="btn btn-primary"
+                                            formaction="{{ url("admin_delete") }}">Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% if users is empty %}
+                        <div style="text-align: center; font-size: 20px; color: black; background-color: white; border-radius: 5px;">
+                            There is no user registered
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

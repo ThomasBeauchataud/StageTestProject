@@ -1,0 +1,14 @@
+<div class="top-nav">
+    <a href="{{ url('index') }}" {% if app.request.uri == url("index") %} class="active" {% endif %}>Home</a>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ url("admin_index") }}"{% if "/admin" in app.request.uri %} class="active" {% endif %}>Admin</a>
+        <div style="float: right;">
+            <a href="{{ url("logout") }}">Logout</a>
+        </div>
+    {% else %}
+        <a href="{{ url('register_index') }}" {% if "/register" in app.request.uri %} class="active" {% endif %}>Register</a>
+        <div style="float: right;">
+            <a href="{{ url('login') }}"{% if app.request.uri == url("login") %} class="active" {% endif %}>Log In</a>
+        </div>
+    {% endif %}
+</div>

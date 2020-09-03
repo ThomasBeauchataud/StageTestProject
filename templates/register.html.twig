@@ -1,0 +1,86 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/css/bootstrap-select.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container form">
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
+                <form class="login100-form validate-form flex-sb flex-w" method="post"
+                      action="{{ url("register_creation") }}">
+
+                    <span class="login100-form-title p-b-53">Register</span>
+
+                    {% if error is defined %}
+                        <div style="margin-top: 10px; color: red; font-size: 18px; margin-bottom: 10px; margin-left: 50px;">
+                            <b>{{ error }}</b></div>
+                    {% endif %}
+
+                    <div class="p-t-31 p-b-9"><span class="txt1">Email</span></div>
+                    <div class="wrap-input100 validate-input" data-validate="Email is required">
+                        <label><input class="input100" type="text" name="email"
+                                      placeholder="Enter your email here"></label>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="p-t-31 p-b-9"><span class="txt1">Name</span></div>
+                    <div class="wrap-input100 validate-input" data-validate="Name is required">
+                        <label><input class="input100" type="text" name="name"
+                                      placeholder="Enter your name here"></label>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="p-t-13 p-b-9"><span class="txt1">Surname</span></div>
+                    <div class="wrap-input100 validate-input" data-validate="Surname is required">
+                        <label><input class="input100" type="text" name="surname"
+                                      placeholder="Enter your surname here"></label>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="p-t-13 p-b-9"><span class="txt1">Gender</span>
+                        <div class="txt1">
+                            <label for="gender"></label>
+                            <select id="gender" name="gender" class="selectpicker">
+                                <option disabled selected>Select your gender</option>
+                                {% for g in genders %}
+                                    <option value="{{ g }}">{{ g }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="p-t-13 p-b-9"><span class="txt1">Country</span>
+                        <div class="txt1">
+                            <label for="country"></label>
+                            <select id="country" name="country" class="selectpicker" data-live-search="true">
+                                <option disabled selected>Select your country</option>
+                                {% for c in countries %}
+                                    <option value="{{ c }}">{{ c }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="p-t-13 p-b-9"><span class="txt1">Birth Date</span></div>
+                    <div class="wrap-input100 validate-input" data-validate="Birth date is required">
+                        <label><input class="input100" type="date" name="birth_date"></label>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn">Register</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
