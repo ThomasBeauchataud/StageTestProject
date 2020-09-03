@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Service\User\CountryProvider;
 use App\Service\User\UserCreation;
 use App\Service\User\UserFactory;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,27 +79,30 @@ class RegisterController extends AbstractController
 
     /**
      * Handle the user creation form
-     * @Route("/creation", name="creation", methods={"POST"})
+     * @Route("/create", name="create", methods={"POST"})
      * @param Request $request
      * @return Response
+     * @throws Exception
      */
-    public function creation(Request $request)
+    public function create(Request $request)
     {
         $user = UserFactory::createUser(array(
             "name" => $request->request->get("name"),
             "surname" => $request->request->get("surname"),
             "email" => $request->request->get("email"),
             "gender" => $request->request->get("gender"),
-            "birthDate" => DateTime::createFromFormat("Y-d-m", $request->request->get("birth_date")),
+            "country" => $request->request->get("country"),
+            "birthDate" => $request->request->get("birth_date")
         ));
         $errors = $this->validator->validate($user);
+        $redirectRoute = $this->getUser() == null ? "register_index" : "admin_create";
         if (count($errors) == 0) {
             $this->bus->dispatch(new UserCreation($user));
             if (in_array(Admin::ROLE_ADMIN, $this->getUser()->getRoles())) {
-                return $this->redirectToRoute("admin_index");
+                return $this->redirectToRoute($redirectRoute);
             }
         }
         $error = $errors[0]->getMessage();
-        return $this->redirectToRoute("register_index", array("error" => $error));
+        return $this->redirectToRoute($redirectRoute, array("error" => $error));
     }
 }

@@ -4,12 +4,12 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Service\User\ConstraintUniqueEmail;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity("email", message="A user with this email already exists.")
+ * @ConstraintUniqueEmail
  */
 class User
 {
@@ -23,7 +23,7 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -50,17 +50,21 @@ class User
     private ?string $gender;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", length=255)
      * @Assert\Date(message="You must provide a valid birth date")
      */
-    private $birthDate;
+    private ?string $birthDate;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Country(message="You must provide a valid country")
      * @Assert\NotNull(message="You must provide a country")
      */
     private ?string $country;
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
 
     public function getId(): ?int
     {
@@ -115,12 +119,12 @@ class User
         return $this;
     }
 
-    public function getBirthDate()
+    public function getBirthDate(): ?string
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate($birthDate): self
+    public function setBirthDate(?string $birthDate): self
     {
         $this->birthDate = $birthDate;
 

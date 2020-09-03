@@ -1,0 +1,15 @@
+<div class="sub-nav">
+    <a href="{{ url("admin_index") }}"
+            {% if app.request.uri == url("admin_index")
+            or ("/admin" in app.request.uri and "create" not in app.request.uri) %}
+        class="active"
+            {% endif %}>
+        User List
+    </a>
+    <a href="{{ url("admin_create") }}"
+            {% if "/admin/create" in app.request.uri %}
+        class="active"
+            {% endif %}>
+        User Creation
+    </a>
+</div>

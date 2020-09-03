@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 
+{% block subHeader %}
+    {% include "user_menu.html.twig" %}
+{% endblock %}
+
 {% block body %}
     <div class="limiter">
         <div class="container-table100">
@@ -19,18 +23,18 @@
                         </thead>
                         <tbody>
                         {% for user in users %}
-                            <tr onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'">
-                                <td class="column1">{{ user.name }}</td>
-                                <td class="column1">{{ user.surname }}</td>
-                                <td class="column1">{{ user.email }}</td>
-                                <td class="column1">{{ user.country }}</td>
-                                <td class="column1">{{ user.gender }}</td>
-                                <td class="column1">{{ user.birthDate.format('d F Y') }}</td>
+                            <tr>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.name }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.surname }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.email }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.country }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.gender }}</td>
+                                <td onclick="location.href='{{ url('admin_select', {'id':user.id}) }}'" class="column1">{{ user.birthDate }}</td>
                                 <td class="column2">
+                                    <form method="post" action="{{ url("admin_delete") }}">
                                     <input type="hidden" name="id" value="{{ user.id }}">
-                                    <button type="submit" class="btn btn-primary"
-                                            formaction="{{ url("admin_delete") }}">Delete
-                                    </button>
+                                    <button type="submit" class="btn btn-primary">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
