@@ -1,3 +1,6 @@
+## Requirements
+- PHP >= 7.4.0
+
 ## The Installation
 - Create a `.env` file with fields like below
 ```
@@ -8,7 +11,7 @@ APP_SECRET=3ad0df3f91d2bfab4ed76ddb3e9ff319
 DATABASE_URL={YOUR DATABASE URL HERE}
 MAIlER_DSN={YOU DSN MAIL HERE}
 ```
-- Run `composer update` to install packages
+- Run `php composer.phar update` to install packages
 - Create database tables by running `php bin/console doctrine:migration:migrate`
 - Populate tables by running SQL commands below:
 ```
